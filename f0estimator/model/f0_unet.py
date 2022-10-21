@@ -163,7 +163,7 @@ class F0Unet:
 		# lock the devices that we will need in the graph
 		self.devices = devices if devices else ['/cpu:0']
 
-		with graph.as_default(), tf.container(mode):
+		with graph.as_default(), tf.compat.v1.container(mode):
 
 			#self.global_step = tf.Variable(0, trainable=False, name='global_step')
 			#self.learning_rate = tf.Variable(hparams.training_learning_rate, trainable=False, name='learning_rate')
@@ -199,20 +199,20 @@ class F0Unet:
 
 		hparams = self.hparams
 
-		with tf.variable_scope('dataset'):
+		with tf.compat.v1.variable_scope('dataset'):
 
 			placeholder_shape = [None, None] + hparams.database_src_data_shape[1:] # [b, t, ...] we put None for batch as it is unknown, and None for time to handle variable lengths chunks
 
 			# placeholders
-			source_data_placeholder = tf.placeholder(shape=placeholder_shape, dtype=tf.float32)
+			source_data_placeholder = tf.compat.v1.placeholder(shape=placeholder_shape, dtype=tf.float32)
 
 			# create one dataset object out of the list of tfrecords files and put the cursor at skip count
 			dataset = tf.data.Dataset.from_tensors(source_data_placeholder)
 
 			dataset = dataset.map(lambda src_data: (src_data,)) # be careful, the comma counts as we must pass a list!
 
-			dataset_iterator = dataset.make_initializable_iterator()
-
+			dataset_iterator = tf.compat.v1.data.make_initializable_iterator()
+				
 
 			(src_data,
 			 ) = dataset_iterator.get_next()
