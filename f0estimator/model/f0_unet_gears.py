@@ -80,7 +80,7 @@ class F0UnetGears:
 						with tf.variable_scope('layer_%d' % count_layers):
 
 							# batch norm
-							outputs = tf.keras.layers.BatchNormalization(outputs,
+							outputs = tf.layers.batch_normalization(outputs,
 							                                        training=training)
 
 							# if convolution is SAME, then we need to pad manually as we will need the padded output for the
