@@ -211,7 +211,7 @@ class F0Unet:
 
 			dataset = dataset.map(lambda src_data: (src_data,)) # be careful, the comma counts as we must pass a list!
 
-			dataset_iterator = tf.compat.v1.data.make_initializable_iterator()
+			dataset_iterator = tf.compat.v1.data.make_initializable_iterator(dataset)
 				
 
 			(src_data,
