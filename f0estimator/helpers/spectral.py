@@ -23,7 +23,7 @@ def compute_and_save_log_hcqt_for_audio_filepath(audio_filepath,
                                                  hcqt_num_octaves=6,
                                                  hcqt_num_bins_per_octave=60,
                                                  hcqt_harmonics=(0.5, 1, 2, 3, 4, 5),
-                                                 n_hcqt_jobs=1,
+                                                 n_hcqt_jobs=4,
                                                  ):
 
 	if type(hcqt_harmonics) is tuple:
