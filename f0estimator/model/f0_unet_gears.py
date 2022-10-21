@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import keras
 
 
 class F0UnetGears:
@@ -80,7 +81,7 @@ class F0UnetGears:
 						with tf.variable_scope('layer_%d' % count_layers):
 
 							# batch norm
-							outputs = tf.layers.batch_normalization(outputs,
+							outputs = keras.layers.BatchNormalization(outputs,
 							                                        training=training)
 
 							# if convolution is SAME, then we need to pad manually as we will need the padded output for the
@@ -90,7 +91,7 @@ class F0UnetGears:
 
 
 							# 2 conv2D followed by Relu
-							outputs = tf.layers.conv2d(inputs=outputs,
+							outputs = tf.keras.layers.Conv2D(inputs=outputs,
 							                           filters=num_kernels,
 							                           kernel_size=[floor_kernel_shape[0], floor_kernel_shape[1]],
 							                           kernel_regularizer=None, # tf.contrib.layers.l2_regularizer(scale=regularizer_scale) if regularizer_scale > 0 else
@@ -119,7 +120,7 @@ class F0UnetGears:
 					# so we pad, and we have to make sure that we remove 1 dimension in the up-sampling branch
 					# see (*) below
 
-					outputs = tf.layers.average_pooling2d(outputs,
+					outputs = keras.layers.AveragePooling2D(outputs,
 					                                      pool_size=[floor_pool_shape[0], floor_pool_shape[1]],
 					                                      strides=[floor_pool_stride[0], floor_pool_stride[1]],
 					                                      padding=padding_type,
@@ -192,7 +193,7 @@ class F0UnetGears:
 					# 2x2 de-convolution (up-sampling reverse of the max pool)
 					# down side was in ---> out, up side is in'= out ---> out'
 					# condition to have out' = in is (in-k) % s
-					outputs = tf.layers.conv2d_transpose(outputs,
+					outputs =tf.keras.layers.Conv2DTranspose(outputs,
 					                                     filters=num_kernels,
 					                                     kernel_size = [floor_pool_shape[0], floor_pool_shape[1]],
 					                                     strides = [floor_pool_stride[0], floor_pool_stride[1]],
