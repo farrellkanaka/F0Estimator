@@ -81,7 +81,7 @@ class F0UnetGears:
 						with tf.variable_scope('layer_%d' % count_layers):
 
 							# batch norm
-							outputs = keras.layers.BatchNormalization(outputs,
+							outputs = tf.keras.layers.BatchNormalization(outputs,
 							                                        training=training)
 
 							# if convolution is SAME, then we need to pad manually as we will need the padded output for the
@@ -120,7 +120,7 @@ class F0UnetGears:
 					# so we pad, and we have to make sure that we remove 1 dimension in the up-sampling branch
 					# see (*) below
 
-					outputs = keras.layers.AveragePooling2D(outputs,
+					outputs = tf.keras.layers.AveragePooling2D(outputs,
 					                                      pool_size=[floor_pool_shape[0], floor_pool_shape[1]],
 					                                      strides=[floor_pool_stride[0], floor_pool_stride[1]],
 					                                      padding=padding_type,
